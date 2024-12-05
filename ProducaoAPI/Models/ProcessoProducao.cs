@@ -15,5 +15,6 @@
         public ICollection<ProcessoProducaoMateriaPrima> ProducaoMateriasPrimas { get; set; }
         public double CustoUnitario { get; set; }
         public double CustoTotal { get; set; }
+        public bool Ativo { get; set; }
     }
 }

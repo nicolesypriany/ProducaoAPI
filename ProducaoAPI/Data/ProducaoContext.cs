@@ -10,7 +10,7 @@ namespace ProducaoAPI.Data
             
         }
 
-        private string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_ProducaoAPI;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+        //private string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_ProducaoAPI;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
         public DbSet<Maquina> Maquinas { get; set; }
         public DbSet<Forma> Formas { get; set; }
@@ -20,9 +20,12 @@ namespace ProducaoAPI.Data
         public DbSet<ProcessoProducaoMateriaPrima> ProducoesMateriasPrimas { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(connectionString);
-        }
+        => optionsBuilder.UseNpgsql(@"Host=dbproducaoapi.cn8we8um0wsu.us-east-1.rds.amazonaws.com;Username=postgres;Password=postgre123;Database=dbproducaoapi");
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

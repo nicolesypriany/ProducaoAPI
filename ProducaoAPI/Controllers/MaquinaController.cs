@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ProducaoAPI.Data;
 using ProducaoAPI.Models;
 using ProducaoAPI.Requests;
+using ProducaoAPI.Responses;
 
 namespace ProducaoAPI.Controllers
 {
@@ -20,9 +22,10 @@ namespace ProducaoAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Maquina>>> ListarMaquinas()
         {
-            var maquinas = await _context.Maquinas.ToListAsync();
+            var maquinas = await _context.Maquinas.Where(m => m.Ativo == true).ToListAsync();
             if (maquinas == null) return NotFound();
-            return Ok(maquinas);
+            var maquinasResponse = EntityListToResponseList(maquinas);
+            return Ok(maquinasResponse);
         }
 
         [HttpGet("{id}")]
@@ -55,15 +58,36 @@ namespace ProducaoAPI.Controllers
             return Ok(maquina);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Maquina>> DeletarMaquina(int id)
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<Maquina>> InativarMaquina(int id)
         {
             var maquina = await _context.Maquinas.FindAsync(id);
             if (maquina == null) return NotFound();
+            maquina.Ativo = false;
 
-             _context.Maquinas.Remove(maquina);
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(maquina);
+        }
+
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<Maquina>> DeletarMaquina(int id)
+        //{
+        //    var maquina = await _context.Maquinas.FindAsync(id);
+        //    if (maquina == null) return NotFound();
+
+        //     _context.Maquinas.Remove(maquina);
+        //    await _context.SaveChangesAsync();
+        //    return NoContent();
+        //}
+        
+        private static ICollection<MaquinaResponse> EntityListToResponseList(IEnumerable<Maquina> maquinas)
+        {
+            return maquinas.Select(m => EntityToResponse(m)).ToList();
+        }
+
+        private static MaquinaResponse EntityToResponse(Maquina maquina)
+        {
+            return new MaquinaResponse(maquina.Id, maquina.Nome, maquina.Marca);
         }
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ProducaoAPI.Data;
 //using ProducaoAPI.Endpoints;
 
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ProducaoContext>();
+//builder.Services.AddDbContext<ProducaoContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

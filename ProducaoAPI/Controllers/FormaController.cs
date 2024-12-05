@@ -55,15 +55,26 @@ namespace ProducaoAPI.Controllers
             return Ok(forma);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Forma>> DeletarForma(int id)
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<Forma>> InativarForma(int id)
         {
             var forma = await _context.Formas.FindAsync(id);
             if (forma == null) return NotFound();
+            forma.Ativo = false;
 
-            _context.Formas.Remove(forma);
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(forma);
         }
+
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<Forma>> DeletarForma(int id)
+        //{
+        //    var forma = await _context.Formas.FindAsync(id);
+        //    if (forma == null) return NotFound();
+
+        //    _context.Formas.Remove(forma);
+        //    await _context.SaveChangesAsync();
+        //    return NoContent();
+        //}
     }
 }
