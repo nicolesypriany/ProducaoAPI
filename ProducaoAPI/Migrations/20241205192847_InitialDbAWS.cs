@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace ProducaoAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class initialDb : Migration
+    public partial class InitialDbAWS : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,10 +16,11 @@ namespace ProducaoAPI.Migrations
                 name: "Maquinas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Marca = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nome = table.Column<string>(type: "text", nullable: false),
+                    Marca = table.Column<string>(type: "text", nullable: false),
+                    Ativo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,12 +31,13 @@ namespace ProducaoAPI.Migrations
                 name: "MateriasPrimas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Fornecedor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Unidade = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Preco = table.Column<double>(type: "float", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nome = table.Column<string>(type: "text", nullable: false),
+                    Fornecedor = table.Column<string>(type: "text", nullable: false),
+                    Unidade = table.Column<string>(type: "text", nullable: false),
+                    Preco = table.Column<double>(type: "double precision", nullable: false),
+                    Ativo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,12 +48,13 @@ namespace ProducaoAPI.Migrations
                 name: "Produtos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Medidas = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Unidade = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PecasPorUnidade = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nome = table.Column<string>(type: "text", nullable: false),
+                    Medidas = table.Column<string>(type: "text", nullable: false),
+                    Unidade = table.Column<string>(type: "text", nullable: false),
+                    PecasPorUnidade = table.Column<int>(type: "integer", nullable: false),
+                    Ativo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,11 +65,12 @@ namespace ProducaoAPI.Migrations
                 name: "Formas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProdutoId = table.Column<int>(type: "int", nullable: false),
-                    PecasPorCiclo = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nome = table.Column<string>(type: "text", nullable: false),
+                    ProdutoId = table.Column<int>(type: "integer", nullable: false),
+                    PecasPorCiclo = table.Column<int>(type: "integer", nullable: false),
+                    Ativo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,8 +87,8 @@ namespace ProducaoAPI.Migrations
                 name: "FormaMaquina",
                 columns: table => new
                 {
-                    FormasId = table.Column<int>(type: "int", nullable: false),
-                    MaquinasId = table.Column<int>(type: "int", nullable: false)
+                    FormasId = table.Column<int>(type: "integer", nullable: false),
+                    MaquinasId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,16 +111,17 @@ namespace ProducaoAPI.Migrations
                 name: "Producoes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Data = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MaquinaId = table.Column<int>(type: "int", nullable: false),
-                    FormaId = table.Column<int>(type: "int", nullable: false),
-                    ProdutoId = table.Column<int>(type: "int", nullable: false),
-                    Ciclos = table.Column<int>(type: "int", nullable: false),
-                    QuantidadeProduzida = table.Column<double>(type: "float", nullable: false),
-                    CustoUnitario = table.Column<double>(type: "float", nullable: false),
-                    CustoTotal = table.Column<double>(type: "float", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Data = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    MaquinaId = table.Column<int>(type: "integer", nullable: false),
+                    FormaId = table.Column<int>(type: "integer", nullable: false),
+                    ProdutoId = table.Column<int>(type: "integer", nullable: false),
+                    Ciclos = table.Column<int>(type: "integer", nullable: false),
+                    QuantidadeProduzida = table.Column<double>(type: "double precision", nullable: false),
+                    CustoUnitario = table.Column<double>(type: "double precision", nullable: false),
+                    CustoTotal = table.Column<double>(type: "double precision", nullable: false),
+                    Ativo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -144,9 +150,10 @@ namespace ProducaoAPI.Migrations
                 name: "ProducoesMateriasPrimas",
                 columns: table => new
                 {
-                    ProducaoId = table.Column<int>(type: "int", nullable: false),
-                    MateriaPrimaId = table.Column<int>(type: "int", nullable: false),
-                    Quantidade = table.Column<double>(type: "float", nullable: false)
+                    ProducaoId = table.Column<int>(type: "integer", nullable: false),
+                    MateriaPrimaId = table.Column<int>(type: "integer", nullable: false),
+                    Quantidade = table.Column<double>(type: "double precision", nullable: false),
+                    Ativo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
