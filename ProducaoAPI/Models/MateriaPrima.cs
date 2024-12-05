@@ -8,5 +8,6 @@
         public string Unidade { get; set; }
         public double Preco { get; set; }
         public ICollection<ProcessoProducaoMateriaPrima> ProducaoMateriasPrimas { get; set; }
+        public bool Ativo { get; set; }
     }
 }

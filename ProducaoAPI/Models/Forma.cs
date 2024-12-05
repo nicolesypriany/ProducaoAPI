@@ -7,6 +7,7 @@
             Nome = nome;
             ProdutoId = produtoId;
             PecasPorCiclo = pecasPorCiclo;
+            Ativo = true;
         }
 
         public int Id { get; set; }
@@ -16,5 +17,6 @@
         public int PecasPorCiclo { get; set; }
         public ICollection<Maquina> Maquinas { get; set; }
         public ICollection<ProcessoProducao> Producoes { get; set; }
+        public bool Ativo { get; set; }
     }
 }

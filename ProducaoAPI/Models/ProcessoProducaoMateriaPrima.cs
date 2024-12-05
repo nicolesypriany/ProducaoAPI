@@ -9,5 +9,6 @@
         public MateriaPrima MateriaPrima { get; set; }
 
         public double Quantidade { get; set; }
+        public bool Ativo { get; set; }
     }
 }
